@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ContosoUniversity_MVC.Data;
 using ContosoUniversity_MVC.Models;
+using ContosoUniversity_MVC.Helpers;
 
 namespace ContosoUniversity_MVC.Controllers
 {
@@ -20,10 +21,16 @@ namespace ContosoUniversity_MVC.Controllers
         }
 
         // GET: Students
-        public async Task<IActionResult> Index(string sortOrder, string searchString)
+        public async Task<IActionResult> Index(string sortOrder, string searchString, string currentFilter, int? page)
         {
             ViewData["NameSortParm"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+            ViewData["CurrentFilter"] = sortOrder;
+
+            if (searchString == null)
+                searchString = currentFilter;
+            else page = 1;
+
             ViewData["CurrentFilter"] = searchString;
 
             var students = from s in _context.Students
@@ -50,7 +57,11 @@ namespace ContosoUniversity_MVC.Controllers
                     students = students.OrderBy(s => s.LastName);
                     break;
             }
-            return View(await students.AsNoTracking().ToListAsync());
+
+            int pageSize = 3;
+
+            return View(await PaginatedList<Student>
+                .CreateAsync(students.AsNoTracking(), page ?? 1, pageSize));
         }
 
         // GET: Students/Details/5
