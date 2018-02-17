@@ -20,6 +20,7 @@ namespace ContosoUniversity_MVC.Data
         public DbSet<Instructor> Instructors { get; set; }
         public DbSet<OfficeAssignment> OfficeAssignments { get; set; }
         public DbSet<CourseAssignment> CourseAssignments { get; set; }
+        public DbSet<Person> People { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -31,6 +32,7 @@ namespace ContosoUniversity_MVC.Data
             modelBuilder.Entity<OfficeAssignment>().ToTable(nameof(OfficeAssignment));
             modelBuilder.Entity<CourseAssignment>().ToTable(nameof(CourseAssignment))
                 .HasKey(c => new { c.CourseID, c.InstructorID });
+            modelBuilder.Entity<Person>().ToTable(nameof(Person));
             base.OnModelCreating(modelBuilder);
         }
     }
