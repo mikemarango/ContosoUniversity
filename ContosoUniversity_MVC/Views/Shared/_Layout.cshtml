@@ -3,10 +3,10 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - ContosoUniversity_MVC</title>
+    <title>@ViewData["Title"] - Contoso University</title>
 
     <environment include="Development">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.spacelab.css" />
         <link rel="stylesheet" href="~/css/site.css" />
     </environment>
     <environment exclude="Development">
@@ -26,13 +26,16 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">ContosoUniversity_MVC</a>
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">Contoso University</a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
+                    <li><a asp-area="" asp-controller="Students" asp-action="Students">Students</a></li>
+                    <li><a asp-area="" asp-controller="Courses" asp-action="Courses">Courses</a></li>
+                    <li><a asp-area="" asp-controller="Instructors" asp-action="Instructors">Instructors</a></li>
+                    <li><a asp-area="" asp-controller="Departments" asp-action="Departments">Departments</a></li>
                 </ul>
             </div>
         </div>
@@ -41,7 +44,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; 2018 - ContosoUniversity_MVC</p>
+            <p>&copy; 2018 - Contoso University</p>
         </footer>
     </div>
 
