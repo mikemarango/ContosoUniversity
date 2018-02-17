@@ -14,8 +14,9 @@ namespace ContosoUniversity_MVC.Models
         public string LastName { get; set; }
         [Required, Column("FirstName"), Display(Name = "First Name"), StringLength(50)]
         public string FirstMidName { get; set; }
-        [DataType(DataType.Date), DisplayFormat(DataFormatString = "0:yyyy-MM-dd", ApplyFormatInEditMode = true),
-            Display(Name = "Hire Date")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [Display(Name = "Hire Date")]
         public DateTime HireDate { get; set; }
         public string FullName => $"{LastName}, {FirstMidName}";
         public ICollection<CourseAssignment> CourseAssignments { get; set; }
