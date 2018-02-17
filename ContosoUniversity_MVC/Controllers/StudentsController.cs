@@ -125,18 +125,20 @@ namespace ContosoUniversity_MVC.Controllers
         }
 
         // GET: Students/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int? id, bool? saveChangesError = false)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var student = await _context.Students
+            var student = await _context.Students.AsNoTracking()
                 .SingleOrDefaultAsync(m => m.ID == id);
-            if (student == null)
+
+            if (saveChangesError.GetValueOrDefault())
             {
-                return NotFound();
+                ViewData["ErrorMessage"] =
+                    "Delete failed. Try again in a few moments.";
             }
 
             return View(student);
@@ -147,10 +149,25 @@ namespace ContosoUniversity_MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var student = await _context.Students.SingleOrDefaultAsync(m => m.ID == id);
-            _context.Students.Remove(student);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            var student = await _context.Students.AsNoTracking()
+                .SingleOrDefaultAsync(m => m.ID == id);
+            if (student == null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            try
+            {
+                _context.Students.Remove(student);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+
+            }
+            catch (DbUpdateException /* ex */)
+            {
+                return RedirectToAction(nameof(Delete), new { id, saveChangesError = true });
+            }
+
         }
 
         private bool StudentExists(int id)
